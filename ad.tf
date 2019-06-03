@@ -7,13 +7,13 @@ resource "aws_directory_service_directory" "my_simplead" {
 
   vpc_settings {
     vpc_id     =  "${var.vpc_id}"
-    subnet_ids = ["${var.subnet_ids}"]
+    subnet_ids = var.subnet_ids
   }
 }
 
 resource "aws_vpc_dhcp_options" "my_simplead_dhcp" {
   domain_name          = "${var.domain_name}"
-  domain_name_servers  = ["${aws_directory_service_directory.my_simplead.dns_ip_addresses}"]
+  domain_name_servers  = aws_directory_service_directory.my_simplead.dns_ip_addresses
 }
 
 resource "aws_vpc_dhcp_options_association" "my_simplead_dns_resolver" {
